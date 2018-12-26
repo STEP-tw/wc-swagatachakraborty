@@ -1,19 +1,24 @@
-const TAB = '      ';
-const SPACE = ' ';
-const NEWLINE = '\n';
-const EMPTYSRTING = '';
-
+const { 
+    TAB,
+    SPACE,
+    NEWLINE,
+    EMPTYSTRING
+ } = require('./util');
 
 const wc = function (fs, fileName) {
     let content = fs.readFileSync(fileName, 'utf8');
     let lines = content.split(NEWLINE).length - 1;
-    let words = content.split(EMPTYSRTING).reduce(function (x, y) {
-        if (y != SPACE && y != NEWLINE)
-            return ++x;
-        return x;
-    }, 0);
-    let bytes = content.split(EMPTYSRTING).length;
-    let result = TAB + lines + TAB + words + TAB + bytes + SPACE + fileName;
+    let words = content.split(NEWLINE)
+        .map(function (x) {
+            return x.split(' ').reduce(function (x, y) {
+                if (y != EMPTYSTRING && y != NEWLINE)
+                    return ++x;
+                return x;
+            }, 0)
+        })
+        .reduce((x, y) => x + y, 0);
+            let bytes = content.split(EMPTYSTRING).length;
+            let result = TAB + lines + TAB + words + TAB + bytes + SPACE + fileName;
     return result;
 };
 
