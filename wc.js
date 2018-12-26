@@ -31,10 +31,10 @@
   DONE :
   node ./wc.js file1
 */
-const fs = require('fs');
-const { wc } = require('./src/lib');
+const fs = require("fs");
+const { wc } = require("./src/lib");
 
-const main = function () {
+const main = function() {
   let fileName = process.argv[2];
   return wc(fs, fileName);
 };
