@@ -12,7 +12,10 @@
         {
             //
         }
-    ]
+    ] 
+    ---- not sure about that.
+
+* need a formater to format content...a separate file
 
 * write formater that will format the output -> separate file
 
@@ -24,3 +27,7 @@
 
 *libTest -
     * mock fs should be in global scope
+
+*parser - 
+    * write a function to create object
+    * hasDash or startWithDash function

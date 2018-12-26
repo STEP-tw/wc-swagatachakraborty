@@ -1,19 +1,16 @@
 const {
   TAB,
   SPACE,
-  NEWLINE,
   EMPTYSTRING,
   add,
-  splitByNewLine
+  splitByNewLine,
+  isEmptySrting,
 } = require("./util");
 
-const wc = function(fs, fileName) {
-  let content = fs.readFileSync(fileName, "utf8");
-  let lines = fileCounter.line(content);
-  let words = fileCounter.word(content);
-  let bytes = fileCounter.byte(content);
-  let result = TAB + lines + TAB + words + TAB + bytes + SPACE + fileName;
-  return result;
+const wc = function(fs, options, files) {
+  let content = fs.readFileSync(files[0], "utf8");
+  let counts = options.map( x => fileCounter[x](content) );
+  return TAB + counts.join(TAB) + SPACE +files;
 };
 
 const fileCounter = {
@@ -33,10 +30,10 @@ const fileCounter = {
 };
 
 const countWordsInLine = function(line) {
-  return line.split(SPACE).reduce(function(x, y) {
-    if (y != EMPTYSTRING && y != NEWLINE) return ++x;
-    return x;
+  return line.split(SPACE).reduce(function(count, word) {
+    if ( isEmptySrting(word) ) return count;
+    return ++count;
   }, 0);
 };
 
-module.exports = { wc, TAB, SPACE };
+module.exports = { wc };

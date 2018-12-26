@@ -32,11 +32,12 @@
   node ./wc.js file1
 */
 const fs = require("fs");
+const { parse } = require('./src/parser');
 const { wc } = require("./src/lib");
 
 const main = function() {
-  let fileName = process.argv[2];
-  return wc(fs, fileName);
+  let { options, files } = parse( process.argv.slice(2) );
+  return wc( fs, options, files );
 };
 
 console.log(main());
