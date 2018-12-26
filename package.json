@@ -1,0 +1,26 @@
+{
+  "name": "wc-swagatachakraborty",
+  "version": "0.0.1",
+  "description": "",
+  "main": "wc.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "nyc mocha --recursive",
+    "run": "wc.js ./text_files/10lines_10words_20chars"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/STEP-tw/wc-swagatachakraborty.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/STEP-tw/wc-swagatachakraborty/issues"
+  },
+  "homepage": "https://github.com/STEP-tw/wc-swagatachakraborty#readme",
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
+}

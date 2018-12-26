@@ -1,0 +1,8 @@
+* lib.js need to rename
+
+*lib.js -
+    * move constants to util
+    * extract countWord, countLine countByte function form wc
+
+*libTest -
+    * mock fs should be in global scope
