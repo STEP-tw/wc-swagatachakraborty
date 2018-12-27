@@ -37,4 +37,22 @@ describe('parse', function(){
     }
     assert.deepEqual( parse(args), expectedOutput );
   });
+
+  it('should return object of options and files when - \'file\'', function(){
+    let args = ['-lw','file'];
+    let expectedOutput = {
+      options: ['line', 'word'],
+      files: ['file']
+    }
+    assert.deepEqual( parse(args), expectedOutput );
+  });
+
+  it('should return object of options and files when - \'file\'', function(){
+    let args = ['-l', '-w','file'];
+    let expectedOutput = {
+      options: ['line', 'word'],
+      files: ['file']
+    }
+    assert.deepEqual( parse(args), expectedOutput );
+  });
 });

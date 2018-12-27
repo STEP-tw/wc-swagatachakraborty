@@ -1,27 +1,47 @@
 const { startWithDash } = require('./util');
 
 const parse = function (args) {
-  let firstArg = args[0];
-  if( startWithDash(firstArg) ){
-    return generateDetails(firstArg, args.slice(1));
-  };
-  return generateDetails(firstArg, args.slice());
+  let { givenOptions, files} = separateOptionFile(args);
+  if( givenOptions.length == 0 ) 
+    return getParseObject( defaultOption, files );
+  return getParseObject( extractOptions(givenOptions), files );
 };
 
-const generateDetails = function (userGivenArg, files) {
-  return {
-    options: getOption(userGivenArg),
-    files
+const getParseObject = function (options, files) {
+  return {options, files};
+};
+
+const extractOptions = function (args) {
+  let uniqueOptions = unique( args.join('').split('') );
+  return uniqueOptions.map(getOption);
+};
+
+const unique = function (list) {
+  return list.reduce(function (set, element) {
+    if ( !set.includes(element) && !startWithDash(element) ) {
+      set.push(element);
+    }
+    return set;
+  }, []);
+};
+
+const separateOptionFile = function (args) {
+  for(let index = 0; index < args.length; index++) {
+    if( !startWithDash(args[index]) )
+      return {
+        givenOptions : args.slice(0, index),
+        files : args.slice(index)
+      };
+  }
+};
+
+const getOption = function(arg){
+  switch(arg) {
+    case 'l': return 'line';
+    case 'w': return 'word';
+    case 'c': return 'byte';
   };
 };
 
-const getOption = function(args){
-  switch(args) {
-    case '-l': return ['line'];
-    case '-w': return ['word'];
-    case '-c': return ['byte'];
-    default : return ['line', 'word', 'byte']; 
-  };
-};
-
+const defaultOption = ['line', 'word', 'byte'];
 module.exports = { parse };
