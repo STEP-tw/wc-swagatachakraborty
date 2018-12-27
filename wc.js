@@ -33,11 +33,12 @@
 */
 const fs = require("fs");
 const { parse } = require('./src/parser');
-const { wc } = require("./src/lib");
+const { wc, format } = require("./src/lib");
 
 const main = function() {
   let { options, files } = parse( process.argv.slice(2) );
-  return wc( fs, options, files );
+  let countReport = wc( fs, options, files );
+  return format(countReport);
 };
 
 console.log(main());

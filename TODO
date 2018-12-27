@@ -1,33 +1,14 @@
 * lib.js need to rename
-* lib.js output should be in array of object 
-    like -  
-    [
-        {
-          file :
-          exist :
-          lines :
-          words :
-          byte :
-        },
-        {
-            //
-        }
-    ] 
-    ---- not sure about that.
 
-* need a formater to format content...a separate file
+* move formater to separate file format.js
 
 * write formater that will format the output -> separate file
-
-*lib.js -
-    * write a object that contain all kind of counter
 
 *util -
     * add separate file for string util and numeric utils
 
-*libTest -
-    * mock fs should be in global scope
-
-*parser - 
-    * write a function to create object
-    * hasDash or startWithDash function
+* need to handle multiple files.
+* in fileLog need to add exist status
+* formater aslo need to handle exist status
+* write a function joinByTab to join to strings by tab and use it in formater
+* function wc should have another name.

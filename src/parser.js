@@ -1,16 +1,17 @@
+const { startWithDash } = require('./util');
+
 const parse = function (args) {
   let firstArg = args[0];
-
-  if( firstArg.startsWith('-') ){
-    return { 
-      options: getOption(firstArg),
-      files: args.slice(1)
-    };
+  if( startWithDash(firstArg) ){
+    return generateDetails(firstArg, args.slice(1));
   };
-  
+  return generateDetails(firstArg, args.slice());
+};
+
+const generateDetails = function (userGivenArg, files) {
   return {
-    options: getOption(firstArg),
-    files: args.slice()
+    options: getOption(userGivenArg),
+    files
   };
 };
 

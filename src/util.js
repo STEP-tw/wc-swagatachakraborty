@@ -2,6 +2,9 @@ const TAB = "      ";
 const SPACE = " ";
 const NEWLINE = "\n";
 const EMPTYSTRING = "";
+const DASH = '-';
+
+const startWithDash = string => string.startsWith(DASH);
 
 const splitByNewLine = x => x.split(NEWLINE);
 const isEmptySrting = x => x == '';
@@ -15,4 +18,5 @@ module.exports = {
   add,
   splitByNewLine,
   isEmptySrting,
+  startWithDash
 };

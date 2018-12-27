@@ -4,13 +4,38 @@ const {
   EMPTYSTRING,
   add,
   splitByNewLine,
-  isEmptySrting,
+  isEmptySrting
 } = require("./util");
 
 const wc = function(fs, options, files) {
-  let content = fs.readFileSync(files[0], "utf8");
-  let counts = options.map( x => fileCounter[x](content) );
-  return TAB + counts.join(TAB) + SPACE +files;
+  let fileLogs = files.map( createFileLog.bind(null, fs, options) );
+  return fileLogs;
+};
+
+const format = function (fileLogs) {
+  let result = fileLogs.map(function(x) {
+    let str = "";
+    if(x.counts.line) str += TAB + x.counts.line;
+    if(x.counts.word) str += TAB + x.counts.word;
+    if(x.counts.byte) str += TAB + x.counts.byte;
+    return str + SPACE + x.name;
+  });
+  return result.join('\n');
+};
+
+const createFileLog = function (fs, options, fileName) {
+  let log = { name: fileName };
+  log.content = fs.readFileSync(fileName, 'utf8');
+  log.counts = countReporter(options, log.content);
+  return log;
+};
+
+const countReporter = function (options, content) {
+  let report = {};
+  if(options.includes('line')) report.line = fileCounter.line(content);
+  if(options.includes('word')) report.word = fileCounter.word(content);
+  if(options.includes('byte')) report.byte = fileCounter.byte(content);
+  return report;
 };
 
 const fileCounter = {
@@ -36,4 +61,4 @@ const countWordsInLine = function(line) {
   }, 0);
 };
 
-module.exports = { wc };
+module.exports = { wc, format };
