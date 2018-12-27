@@ -1,14 +1,15 @@
 * lib.js need to rename
 
-* move formater to separate file format.js
-
-* write formater that will format the output -> separate file
-
 *util -
     * add separate file for string util and numeric utils
 
 * need to handle multiple files.
 * in fileLog need to add exist status
 * formater aslo need to handle exist status
-* write a function joinByTab to join to strings by tab and use it in formater
-* function wc should have another name.
+
+* extract a funtion from formater 
+    * need a batter name for str in formatter 
+
+* May be its better to have separate file for counter stuffs....not sure
+
+* duplication in countReporter, countTotal, singleFileReport

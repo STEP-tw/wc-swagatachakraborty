@@ -1,26 +1,13 @@
 const {
-  TAB,
-  SPACE,
   EMPTYSTRING,
   add,
   splitByNewLine,
+  splitBySpace,
   isEmptySrting
 } = require("./util");
 
-const wc = function(fs, options, files) {
-  let fileLogs = files.map( createFileLog.bind(null, fs, options) );
-  return fileLogs;
-};
-
-const format = function (fileLogs) {
-  let result = fileLogs.map(function(x) {
-    let str = "";
-    if(x.counts.line) str += TAB + x.counts.line;
-    if(x.counts.word) str += TAB + x.counts.word;
-    if(x.counts.byte) str += TAB + x.counts.byte;
-    return str + SPACE + x.name;
-  });
-  return result.join('\n');
+const generateFileLogs = function(fs, options, files) {
+  return files.map( createFileLog.bind(null, fs, options) );
 };
 
 const createFileLog = function (fs, options, fileName) {
@@ -55,10 +42,10 @@ const fileCounter = {
 };
 
 const countWordsInLine = function(line) {
-  return line.split(SPACE).reduce(function(count, word) {
+  return splitBySpace(line).reduce(function(count, word) {
     if ( isEmptySrting(word) ) return count;
     return ++count;
   }, 0);
 };
 
-module.exports = { wc, format };
+module.exports = { generateFileLogs };

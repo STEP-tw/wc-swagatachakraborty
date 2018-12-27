@@ -5,18 +5,28 @@ const EMPTYSTRING = "";
 const DASH = '-';
 
 const startWithDash = string => string.startsWith(DASH);
+const isEmptySrting = x => x == '';
 
 const splitByNewLine = x => x.split(NEWLINE);
-const isEmptySrting = x => x == '';
+const splitBySpace = x => x.split(SPACE);
+
+const joinByTab = (x,y) => x + TAB + y;
+const joinBySpace = (x,y) => x + SPACE + y;
+const joinByNewLine = (x,y) => x + NEWLINE + y;
 
 const add = (x, y) => x + y;
 
 module.exports = {
   TAB,
   SPACE,
+  NEWLINE,
   EMPTYSTRING,
   add,
-  splitByNewLine,
   isEmptySrting,
-  startWithDash
+  startWithDash,
+  splitByNewLine,
+  splitBySpace,
+  joinByTab,
+  joinBySpace,
+  joinByNewLine
 };
