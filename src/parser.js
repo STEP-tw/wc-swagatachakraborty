@@ -40,6 +40,7 @@ const getOption = function(arg){
     case 'l': return 'line';
     case 'w': return 'word';
     case 'c': return 'byte';
+    default : return arg;
   };
 };
 

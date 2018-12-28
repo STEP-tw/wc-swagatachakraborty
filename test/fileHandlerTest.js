@@ -1,5 +1,5 @@
 const assert = require("assert");
-const { generateFileLogs } = require("../src/lib");
+const { generateFileLogs } = require("../src/fileHandler");
 
 const files = {
   "10_line_file": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
@@ -10,6 +10,9 @@ const files = {
 const fs = {
   readFileSync: function(x) {
     return files[x];
+  },
+  existsSync: function(x) {
+    return files[x] != undefined;
   }
 };
 
@@ -20,6 +23,7 @@ describe("generateFileLogs", function() {
       let file = ["10_line_file"];
       let expectedOutput = [{
         name: "10_line_file",
+        exist : true,
         content: "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
         counts: {
           line: 10,
@@ -29,11 +33,12 @@ describe("generateFileLogs", function() {
       }];
       assert.deepEqual(generateFileLogs(fs, options, file), expectedOutput);
     });
-
+    
     it("should return line, word, byte count with file name, when there is only one existing file with empty line ", function() {
       let file = ["file_with_empty_line"];
       let expectedOutput = [{
         name: "file_with_empty_line",
+        exist : true,
         content: "0\n1\n\n2\n3\n4\n5\n6\n7\n8\n9\n",
         counts: {
           line: 11,
@@ -43,11 +48,12 @@ describe("generateFileLogs", function() {
       }];
       assert.deepEqual(generateFileLogs(fs, options, file), expectedOutput);
     });
-
+    
     it("should return all count, when there is only one existing file with multiple words in one line ", function() {
       let file = ["multiple_words_in_one_line"];
       let expectedOutput =[{
         name: "multiple_words_in_one_line",
+        exist : true,
         content: "00\n1 2 3\n4 5\n",
         counts: {
           line: 3,
@@ -64,6 +70,7 @@ describe("generateFileLogs", function() {
       let file = ["multiple_words_in_one_line"];
       let expectedOutput =[{
         name: "multiple_words_in_one_line",
+        exist : true,
         content: "00\n1 2 3\n4 5\n",
         counts: {
           line: 3,
@@ -77,6 +84,7 @@ describe("generateFileLogs", function() {
       let file = ["file_with_empty_line"];
       let expectedOutput = [{
         name: "file_with_empty_line",
+        exist : true,
         content: "0\n1\n\n2\n3\n4\n5\n6\n7\n8\n9\n",
         counts: {
           word: 10
@@ -90,6 +98,7 @@ describe("generateFileLogs", function() {
       let file = ["multiple_words_in_one_line"];
       let expectedOutput =[{
         name: "multiple_words_in_one_line",
+        exist : true,
         content: "00\n1 2 3\n4 5\n",
         counts: {
           byte: 13
@@ -99,13 +108,14 @@ describe("generateFileLogs", function() {
       assert.deepEqual(generateFileLogs(fs, options,file), expectedOutput);
     });
   });
-
+  
   describe("default option - multiple file", function() {
     let options = ['line', 'word', 'byte'];
     it("should return line, word, byte count with file name, when there are all existing file ", function() {
       let file = ["10_line_file", "file_with_empty_line"];
       let expectedOutput = [{
         name: "10_line_file",
+        exist : true,
         content: "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
         counts: {
           line: 10,
@@ -115,6 +125,7 @@ describe("generateFileLogs", function() {
       },
       {
         name: "file_with_empty_line",
+        exist : true,
         content: "0\n1\n\n2\n3\n4\n5\n6\n7\n8\n9\n",
         counts: {
           line: 11,
@@ -125,12 +136,13 @@ describe("generateFileLogs", function() {
       assert.deepEqual(generateFileLogs(fs, options, file), expectedOutput);
     });
   });
-
+  
   describe("one option - single file", function() {
     it("should return line count with file name, when there are all existing file, \'-l\' ", function() {
       let file = ["multiple_words_in_one_line", "file_with_empty_line"];
       let expectedOutput =[{
         name: "multiple_words_in_one_line",
+        exist : true,
         content: "00\n1 2 3\n4 5\n",
         counts: {
           word: 6,
@@ -138,6 +150,7 @@ describe("generateFileLogs", function() {
       },
       {
         name: "file_with_empty_line",
+        exist : true,
         content: "0\n1\n\n2\n3\n4\n5\n6\n7\n8\n9\n",
         counts: {
           word: 10

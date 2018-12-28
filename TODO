@@ -1,20 +1,10 @@
-* lib.js need to rename
-
 *util -
     * add separate file for string util and numeric utils
 
-* in fileLog need to add exist status
-* formater aslo need to handle exist status
-
-* May be its better to have separate file for counter stuffs....not sure
-
-* duplication in countReporter, countTotal, singleFileReport
-
-* getParsedOption is a bad name, need to change
 * need to remove for from separateOptionFile
 
-*need to handle error for -
-    * missing file
-    * wrong option 
+* Refactor countTotal
 
 * need to right justify the output by 8
+
+nedd to get a folder structure inside lib directory
