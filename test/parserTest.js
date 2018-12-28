@@ -29,6 +29,15 @@ describe('parse', function(){
     assert.deepEqual( parse(args), expectedOutput );
   });
 
+  it('should return object of options and files when - \'-a file\'', function(){
+    let args = ['-a', 'file'];
+    let expectedOutput = {
+      options: ['a'],
+      files: ['file']
+    }
+    assert.deepEqual( parse(args), expectedOutput );
+  });
+
   it('should return object of options and files when - \'file\'', function(){
     let args = ['file'];
     let expectedOutput = {

@@ -63,6 +63,16 @@ describe("generateFileLogs", function() {
       }];
       assert.deepEqual(generateFileLogs(fs, options, file), expectedOutput);
     });
+
+    it("should returnn name and exist status when there is unexisting file with default option", function() {
+      let file = ["file"];
+      let expectedOutput =[{
+        name: "file",
+        exist : false
+      }];
+      let options = ['line', 'word', 'byte'];
+      assert.deepEqual(generateFileLogs(fs, options,file), expectedOutput);
+    });
   });
   
   describe("one option - single file", function() {
@@ -107,6 +117,16 @@ describe("generateFileLogs", function() {
       let options = ['byte'];
       assert.deepEqual(generateFileLogs(fs, options,file), expectedOutput);
     });
+      
+      it("should returnn name and exist status when there is unexisting file with, \'c\' ", function() {
+        let file = ["file"];
+        let expectedOutput =[{
+          name: "file",
+          exist : false
+        }];
+        let options = ['byte'];
+        assert.deepEqual(generateFileLogs(fs, options,file), expectedOutput);
+    });
   });
   
   describe("default option - multiple file", function() {
@@ -135,17 +155,36 @@ describe("generateFileLogs", function() {
       }];
       assert.deepEqual(generateFileLogs(fs, options, file), expectedOutput);
     });
+
+    it("should return name and existing status when there is missing file", function() {
+      let file = ["file", "file_with_empty_line"];
+      let expectedOutput = [{
+        name: "file",
+        exist : false,
+      },
+      {
+        name: "file_with_empty_line",
+        exist : true,
+        content: "0\n1\n\n2\n3\n4\n5\n6\n7\n8\n9\n",
+        counts: {
+          line: 11,
+          word: 10,
+          byte: 21
+        }
+      }];
+      assert.deepEqual(generateFileLogs(fs, options, file), expectedOutput);
+    });
   });
   
   describe("one option - single file", function() {
-    it("should return line count with file name, when there are all existing file, \'-l\' ", function() {
+    it("should return line count with file name, when there are all existing file, \'-w\' ", function() {
       let file = ["multiple_words_in_one_line", "file_with_empty_line"];
       let expectedOutput =[{
         name: "multiple_words_in_one_line",
         exist : true,
         content: "00\n1 2 3\n4 5\n",
         counts: {
-          word: 6,
+          word: 6
         }
       },
       {

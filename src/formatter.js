@@ -31,11 +31,11 @@ const countTotal = function(fileLogs) {
 };
 
 const oneLineReport = function({ name, counts }) {
-  let options = Object.keys(counts);
-  let report = options.reduce(function (init, count) {
-      return joinByTab(init, counts[count]);
-    }, "");
-  return joinBySpace(report, name);
+  let report = "";
+   if (counts.line) report = joinByTab(report, counts.line);
+   if (counts.word) report = joinByTab(report, counts.word);
+   if (counts.byte) report = joinByTab(report, counts.byte);
+   return joinBySpace(report, name);
 };
 
 module.exports = { format };

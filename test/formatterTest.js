@@ -62,21 +62,24 @@ describe("format", function() {
           }
         }
       ];
-      let expectedOutput =
-        TAB +
-        "3" +
-        TAB +
-        "6" +
-        TAB +
-        "13" +
-        SPACE +
-        "multiple_words_in_one_line";
+      let expectedOutput = TAB + "3" + TAB + "6" + TAB + "13" + SPACE + "multiple_words_in_one_line";
+      assert.equal(format(fileLogs), expectedOutput);
+    });
+
+    it("should return the wc actual string output with file name for default options", function() {
+      let fileLogs = [
+        {
+          name: "multiple_words_in_one_line",
+          exist: false,
+        }
+      ];
+      let expectedOutput = "wc: multiple_words_in_one_line: open: No such file or directory";
       assert.equal(format(fileLogs), expectedOutput);
     });
   });
 
   describe("for multiple file", function() {
-    it("should return string output with total when there is only one option -l", function() {
+    it("should return string output with total when there is only one option -l", function () {
       let fileLogs = [
         {
           name: "multiple_words_in_one_line",
@@ -125,29 +128,10 @@ describe("format", function() {
           }
         }
       ];
-      let expectedOutput =
-        TAB +
-        "3" +
-        TAB +
-        "6" +
-        TAB +
-        "13" +
-        SPACE +
-        "multiple_words_in_one_line" +
-        "\n";
-      (expectedOutput +=
-        TAB +
-        "11" +
-        TAB +
-        "10" +
-        TAB +
-        "21" +
-        SPACE +
-        "file_with_empty_line" +
-        "\n"),
-        (expectedOutput +=
-          TAB + "14" + TAB + "16" + TAB + "34" + SPACE + "total"),
-        assert.equal(format(fileLogs), expectedOutput);
+      let expectedOutput = TAB + "3" + TAB + "6" + TAB + "13" + SPACE + "multiple_words_in_one_line" + "\n";
+      expectedOutput += TAB + "11" + TAB + "10" + TAB + "21" + SPACE + "file_with_empty_line" + "\n";
+      expectedOutput += TAB + "14" + TAB + "16" + TAB + "34" + SPACE + "total";
+      assert.equal(format(fileLogs), expectedOutput);
     });
 
     it("should return string output with total when there is only one option -w", function() {
@@ -169,11 +153,31 @@ describe("format", function() {
           }
         }
       ];
-      let expectedOutput =
-        TAB + "6" + SPACE + "multiple_words_in_one_line" + "\n";
-      (expectedOutput += TAB + "10" + SPACE + "file_with_empty_line" + "\n"),
-        (expectedOutput += TAB + "16" + SPACE + "total"),
-        assert.equal(format(fileLogs), expectedOutput);
+      let expectedOutput = TAB + "6" + SPACE + "multiple_words_in_one_line" + "\n";
+      expectedOutput += TAB + "10" + SPACE + "file_with_empty_line" + "\n";
+      expectedOutput += TAB + "16" + SPACE + "total";
+      assert.equal(format(fileLogs), expectedOutput);
     });
+  });
+
+  it("should return string output with total when there is only one option -l", function () {
+    let fileLogs = [
+      {
+        name: "multiple_words_in_one_line",
+        exist: false,
+      },
+      {
+        name: "file_with_empty_line",
+        exist: true,
+        content: "0\n1\n\n2\n3\n4\n5\n6\n7\n8\n9\n",
+        counts: {
+          line: 11
+        }
+      }
+    ];
+    let expectedOutput = "wc: multiple_words_in_one_line: open: No such file or directory\n";
+    expectedOutput += TAB + "11" + SPACE + "file_with_empty_line" + "\n";
+    expectedOutput += TAB + "11" + SPACE + "total";
+    assert.equal(format(fileLogs), expectedOutput);
   });
 });
