@@ -1,9 +1,10 @@
 const { startWithDash } = require('../util');
+const { validOptions } = require('../wcLib/errorHandler')
 
 const parse = function (args) {
   let { givenOptions, files} = separateOptionFile(args);
   if( givenOptions.length == 0 ) 
-    return getParseObject( defaultOption, files );
+    return getParseObject( validOptions, files );
   return getParseObject( extractOptions(givenOptions), files );
 };
 
@@ -44,5 +45,4 @@ const getOption = function(arg){
   };
 };
 
-const defaultOption = ['line', 'word', 'byte'];
 module.exports = { parse };

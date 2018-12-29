@@ -1,4 +1,3 @@
-const TAB = "      ";
 const SPACE = " ";
 const NEWLINE = "\n";
 const EMPTYSTRING = "";
@@ -12,7 +11,6 @@ const isEmptySrting = x => x == '';
 const splitByNewLine = x => x.split(NEWLINE);
 const splitBySpace = x => x.split(SPACE);
 
-const joinByTab = (x,y) => x + TAB + y;
 const joinBySpace = (x,y) => x + SPACE + y;
 const joinByNewLine = (x,y) => x + NEWLINE + y;
 
@@ -25,7 +23,6 @@ const rightJustifier = function (width, text) {
 const add = (x, y) => x + y;
 
 module.exports = {
-  TAB,
   SPACE,
   NEWLINE,
   EMPTYSTRING,
@@ -34,7 +31,6 @@ module.exports = {
   startWithDash,
   splitByNewLine,
   splitBySpace,
-  joinByTab,
   joinBySpace,
   SEVENSPACES,
   SIXSPACES,

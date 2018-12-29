@@ -19,4 +19,4 @@ const validater =  {
   }
 };
 
-module.exports = { validater , fileError};
+module.exports = { validater , fileError, validOptions};
