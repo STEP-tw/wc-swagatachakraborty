@@ -1,4 +1,4 @@
-const { startWithDash } = require('./util');
+const { startWithDash } = require('../util');
 
 const parse = function (args) {
   let { givenOptions, files} = separateOptionFile(args);

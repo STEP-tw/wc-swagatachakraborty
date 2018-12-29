@@ -1,10 +1,5 @@
-*util -
-    * add separate file for string util and numeric utils
-
 * need to remove for from separateOptionFile
 
 * Refactor countTotal
 
 * need to right justify the output by 8
-
-nedd to get a folder structure inside lib directory

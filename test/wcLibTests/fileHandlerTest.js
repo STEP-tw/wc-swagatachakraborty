@@ -1,5 +1,5 @@
 const assert = require("assert");
-const { generateFileLogs } = require("../src/fileHandler");
+const { generateFileLogs } = require("../../src/wcLib/fileHandler");
 
 const files = {
   "10_line_file": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",

@@ -4,7 +4,7 @@ const {
   splitByNewLine,
   splitBySpace,
   isEmptySrting
-} = require("./util");
+} = require("../util");
 
 const fileCounters = {
   line: function(content) {

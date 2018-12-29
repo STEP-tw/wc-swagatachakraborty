@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { parse } = require('../src/parser');
+const { parse } = require('../../src/IOHandlers/parser');
 
 describe('parse', function(){
   it('should return object of options and files when - \'-l file\'', function(){

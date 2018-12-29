@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { isInvalid, parseError } = require('../src/errorHandler').validater;
+const { isInvalid, parseError } = require('../../src/wcLib/errorHandler').validater;
 
 describe('isInvalid', function(){
   it('should return true if there is some invalid option presesnt ', function(){

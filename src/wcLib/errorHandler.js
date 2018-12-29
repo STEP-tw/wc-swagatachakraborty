@@ -1,4 +1,4 @@
-const { joinByNewLine } = require('./util');
+const { joinByNewLine } = require('../util');
 
 const validOptions = ['line', 'word', 'byte'];
 const USAGE = 'usage: wc [-clmw] [file ...]';

@@ -2,9 +2,9 @@ const {
   joinByTab,
   joinBySpace,
   joinByNewLine,
-  NEWLINE } = require("./util");
-const { fileError } = require('./errorHandler');
-const { addCount } = require('./counter');
+  NEWLINE } = require("../util");
+const { fileError } = require('../wcLib/errorHandler');
+const { addCount } = require('../wcLib/counter');
 
 const format = function(fileLogs) {
   let result = fileLogs.map( singleFileFormatter ).join(NEWLINE);

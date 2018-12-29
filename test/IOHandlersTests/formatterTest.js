@@ -1,6 +1,6 @@
 const assert = require("assert");
-const { format } = require("../src/formatter");
-const { TAB, SPACE } = require("../src/util");
+const { format } = require("../../src/IOHandlers/formatter");
+const { TAB, SPACE } = require("../../src/util");
 
 describe("format", function() {
   describe("for single file", function() {
