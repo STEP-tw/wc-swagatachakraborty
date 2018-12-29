@@ -3,6 +3,8 @@ const SPACE = " ";
 const NEWLINE = "\n";
 const EMPTYSTRING = "";
 const DASH = '-';
+const SEVENSPACES = '       ';
+const SIXSPACES = '      ';
 
 const startWithDash = string => string.startsWith(DASH);
 const isEmptySrting = x => x == '';
@@ -15,7 +17,7 @@ const joinBySpace = (x,y) => x + SPACE + y;
 const joinByNewLine = (x,y) => x + NEWLINE + y;
 
 const rightJustifier = function (width, text) {
-  let leadingSpaces = (width-text.length);
+  let leadingSpaces = width - text.toString().length;
   if(leadingSpaces < 1) leadingSpaces = 1;
   return new Array(leadingSpaces).fill(SPACE).join(EMPTYSTRING) + text;
 };
@@ -34,6 +36,8 @@ module.exports = {
   splitBySpace,
   joinByTab,
   joinBySpace,
+  SEVENSPACES,
+  SIXSPACES,
   rightJustifier,
   joinByNewLine
 };

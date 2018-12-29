@@ -1,5 +1,5 @@
 const {
-  joinByTab,
+  rightJustifier,
   joinBySpace,
   joinByNewLine,
   NEWLINE } = require("../util");
@@ -31,10 +31,11 @@ const countTotal = function(fileLogs) {
 };
 
 const oneLineReport = function({ name, counts }) {
+  const WIDTH = 8;
   let report = "";
-   if (counts.line) report = joinByTab(report, counts.line);
-   if (counts.word) report = joinByTab(report, counts.word);
-   if (counts.byte) report = joinByTab(report, counts.byte);
+   if (counts.line) report += rightJustifier(WIDTH, counts.line);
+   if (counts.word) report += rightJustifier(WIDTH, counts.word);
+   if (counts.byte) report += rightJustifier(WIDTH, counts.byte);
    return joinBySpace(report, name);
 };
 

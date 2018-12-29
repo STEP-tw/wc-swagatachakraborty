@@ -1,6 +1,6 @@
 const assert = require("assert");
 const { format } = require("../../src/IOHandlers/formatter");
-const { TAB, SPACE } = require("../../src/util");
+const { SPACE, SEVENSPACES, SIXSPACES } = require("../../src/util");
 
 describe("format", function() {
   describe("for single file", function() {
@@ -15,7 +15,7 @@ describe("format", function() {
           }
         }
       ];
-      let expectedOutput = TAB + "3" + SPACE + "multiple_words_in_one_line";
+      let expectedOutput = SEVENSPACES + "3" + SPACE + "multiple_words_in_one_line";
       assert.equal(format(fileLogs), expectedOutput);
     });
 
@@ -30,7 +30,7 @@ describe("format", function() {
           }
         }
       ];
-      let expectedOutput = TAB + "10" + SPACE + "file_with_empty_line";
+      let expectedOutput = SIXSPACES + "10" + SPACE + "file_with_empty_line";
       assert.equal(format(fileLogs), expectedOutput);
     });
 
@@ -45,7 +45,7 @@ describe("format", function() {
           }
         }
       ];
-      let expectedOutput = TAB + "13" + SPACE + "multiple_words_in_one_line";
+      let expectedOutput = SIXSPACES + "13" + SPACE + "multiple_words_in_one_line";
       assert.equal(format(fileLogs), expectedOutput);
     });
 
@@ -62,7 +62,7 @@ describe("format", function() {
           }
         }
       ];
-      let expectedOutput = TAB + "3" + TAB + "6" + TAB + "13" + SPACE + "multiple_words_in_one_line";
+      let expectedOutput = SEVENSPACES + "3" + SEVENSPACES + "6" + SIXSPACES + "13" + SPACE + "multiple_words_in_one_line";
       assert.equal(format(fileLogs), expectedOutput);
     });
 
@@ -98,11 +98,10 @@ describe("format", function() {
           }
         }
       ];
-      let expectedOutput =
-        TAB + "3" + SPACE + "multiple_words_in_one_line" + "\n";
-      (expectedOutput += TAB + "11" + SPACE + "file_with_empty_line" + "\n"),
-        (expectedOutput += TAB + "14" + SPACE + "total"),
-        assert.equal(format(fileLogs), expectedOutput);
+      let expectedOutput = SEVENSPACES + "3" + SPACE + "multiple_words_in_one_line" + "\n";
+      expectedOutput += SIXSPACES + "11" + SPACE + "file_with_empty_line" + "\n";
+      expectedOutput += SIXSPACES + "14" + SPACE + "total";
+      assert.equal(format(fileLogs), expectedOutput);
     });
 
     it("should return string output with total for default option", function() {
@@ -128,9 +127,9 @@ describe("format", function() {
           }
         }
       ];
-      let expectedOutput = TAB + "3" + TAB + "6" + TAB + "13" + SPACE + "multiple_words_in_one_line" + "\n";
-      expectedOutput += TAB + "11" + TAB + "10" + TAB + "21" + SPACE + "file_with_empty_line" + "\n";
-      expectedOutput += TAB + "14" + TAB + "16" + TAB + "34" + SPACE + "total";
+      let expectedOutput = SEVENSPACES + "3" + SEVENSPACES + "6" + SIXSPACES + "13" + SPACE + "multiple_words_in_one_line" + "\n";
+      expectedOutput += SIXSPACES + "11" + SIXSPACES + "10" + SIXSPACES + "21" + SPACE + "file_with_empty_line" + "\n";
+      expectedOutput += SIXSPACES + "14" + SIXSPACES + "16" + SIXSPACES + "34" + SPACE + "total";
       assert.equal(format(fileLogs), expectedOutput);
     });
 
@@ -153,9 +152,9 @@ describe("format", function() {
           }
         }
       ];
-      let expectedOutput = TAB + "6" + SPACE + "multiple_words_in_one_line" + "\n";
-      expectedOutput += TAB + "10" + SPACE + "file_with_empty_line" + "\n";
-      expectedOutput += TAB + "16" + SPACE + "total";
+      let expectedOutput = SEVENSPACES + "6" + SPACE + "multiple_words_in_one_line" + "\n";
+      expectedOutput += SIXSPACES + "10" + SPACE + "file_with_empty_line" + "\n";
+      expectedOutput += SIXSPACES + "16" + SPACE + "total";
       assert.equal(format(fileLogs), expectedOutput);
     });
   });
@@ -176,8 +175,8 @@ describe("format", function() {
       }
     ];
     let expectedOutput = "wc: multiple_words_in_one_line: open: No such file or directory\n";
-    expectedOutput += TAB + "11" + SPACE + "file_with_empty_line" + "\n";
-    expectedOutput += TAB + "11" + SPACE + "total";
+    expectedOutput += SIXSPACES + "11" + SPACE + "file_with_empty_line" + "\n";
+    expectedOutput += SIXSPACES + "11" + SPACE + "total";
     assert.equal(format(fileLogs), expectedOutput);
   });
 });
