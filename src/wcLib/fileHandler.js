@@ -1,4 +1,5 @@
 const { fileCounters } = require('./counter');
+const ENCODING = 'utf8';
 
 const generateFileLogs = function(fs, options, files) {
   return files.map( createFileLog.bind(null, fs, options) );
@@ -11,7 +12,7 @@ const createFileLog = function (fs, options, fileName) {
     return log;
   }
   log.exist = true;
-  log.content = fs.readFileSync(fileName, 'utf8');
+  log.content = fs.readFileSync(fileName, ENCODING);
   log.counts = reportCount(options, log.content);
   return log;
 };

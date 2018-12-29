@@ -1,5 +1,4 @@
 const {
-  EMPTYSTRING,
   add,
   splitByNewLine,
   splitBySpace,
@@ -18,7 +17,7 @@ const fileCounters = {
   },
 
   byte: function(content) {
-    return content.split(EMPTYSTRING).length;
+    return content.length;
   }
 };
 
