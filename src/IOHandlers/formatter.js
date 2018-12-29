@@ -1,5 +1,6 @@
 const {
   rightJustifier,
+  EMPTYSTRING,
   joinBySpace,
   joinByNewLine,
   NEWLINE } = require("../util");
@@ -23,16 +24,15 @@ const countTotal = function(fileLogs) {
   let total = { name : 'total' };
   let init = { line: 0, word: 0, byte: 0 };
   total.counts = fileLogs.reduce(function (init, fileLog) {
-    if( fileLog.exist )
-      return  addCount(init, fileLog.counts)
-    return init;
+    if( !fileLog.exist ) return init;
+    return  addCount(init, fileLog.counts);
   }, init);
   return oneLineReport(total);
 };
 
 const oneLineReport = function({ name, counts }) {
   const WIDTH = 8;
-  let report = "";
+  let report = EMPTYSTRING;
    if (counts.line) report += rightJustifier(WIDTH, counts.line);
    if (counts.word) report += rightJustifier(WIDTH, counts.word);
    if (counts.byte) report += rightJustifier(WIDTH, counts.byte);
