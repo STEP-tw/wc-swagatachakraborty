@@ -14,6 +14,12 @@ const joinByTab = (x,y) => x + TAB + y;
 const joinBySpace = (x,y) => x + SPACE + y;
 const joinByNewLine = (x,y) => x + NEWLINE + y;
 
+const rightJustifier = function (width, text) {
+  let leadingSpaces = (width-text.length);
+  if(leadingSpaces < 1) leadingSpaces = 1;
+  return new Array(leadingSpaces).fill(SPACE).join(EMPTYSTRING) + text;
+};
+
 const add = (x, y) => x + y;
 
 module.exports = {
@@ -28,5 +34,6 @@ module.exports = {
   splitBySpace,
   joinByTab,
   joinBySpace,
+  rightJustifier,
   joinByNewLine
 };
