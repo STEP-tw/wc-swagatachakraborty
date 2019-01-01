@@ -4,6 +4,7 @@ const { generateFileLogs } = require("../../src/wcLib/fileHandler");
 const files = {
   "10_line_file": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
   "file_with_empty_line": "0\n1\n\n2\n3\n4\n5\n6\n7\n8\n9\n",
+  "empty_file": '\n',
   "multiple_words_in_one_line": "00\n1 2 3\n4 5\n"
 };
 
@@ -19,6 +20,24 @@ const fs = {
 describe("generateFileLogs", function() {
   describe("default option - single file", function() {
     let options = ['line', 'word', 'byte'];
+    it('should return line, byte count as 1 and word count 0 for file that is empty', function(){
+      let file  = ["empty_file"];
+      let options = ['line', 'word', 'byte'];
+      let expectedOutput = [
+        {
+          name: "empty_file",
+          exist: true,
+          content: '\n',
+          counts: {
+            line: 1,
+            word: 0,
+            byte: 1
+          }
+        }
+      ];
+      assert.deepEqual( generateFileLogs(fs, options, file), expectedOutput );
+    });
+
     it("should return line, word, byte count with file name, when there is only one existing file ", function() {
       let file = ["10_line_file"];
       let expectedOutput = [{
