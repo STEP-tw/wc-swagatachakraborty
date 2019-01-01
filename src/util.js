@@ -7,6 +7,7 @@ const SIXSPACES = '      ';
 
 const startWithDash = string => string.startsWith(DASH);
 const isEmptySrting = x => x == '';
+const isUndefiend = x => x == undefined;
 
 const splitByNewLine = x => x.split(NEWLINE);
 const splitBySpace = x => x.split(SPACE);
@@ -35,5 +36,6 @@ module.exports = {
   SEVENSPACES,
   SIXSPACES,
   rightJustifier,
+  isUndefiend,
   joinByNewLine
 };

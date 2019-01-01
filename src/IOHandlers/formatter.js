@@ -3,6 +3,7 @@ const {
   EMPTYSTRING,
   joinBySpace,
   joinByNewLine,
+  isUndefiend,
   NEWLINE } = require("../util");
 const { fileError } = require('../wcLib/errorHandler');
 const { addCount } = require('../wcLib/counter');
@@ -33,9 +34,9 @@ const countTotal = function(fileLogs) {
 const oneLineReport = function({ name, counts }) {
   const WIDTH = 8;
   let report = EMPTYSTRING;
-  if (counts.line != undefined) report += rightJustifier(WIDTH, counts.line);
-  if (counts.word != undefined) report += rightJustifier(WIDTH, counts.word);
-  if (counts.byte != undefined) report += rightJustifier(WIDTH, counts.byte);
+  if ( !isUndefiend(counts.line) ) report += rightJustifier(WIDTH, counts.line);
+  if ( !isUndefiend(counts.word) ) report += rightJustifier(WIDTH, counts.word);
+  if ( !isUndefiend(counts.byte) ) report += rightJustifier(WIDTH, counts.byte);
   return joinBySpace(report, name);
 };
 
