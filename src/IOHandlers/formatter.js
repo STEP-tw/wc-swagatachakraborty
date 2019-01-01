@@ -33,10 +33,10 @@ const countTotal = function(fileLogs) {
 const oneLineReport = function({ name, counts }) {
   const WIDTH = 8;
   let report = EMPTYSTRING;
-   if (counts.line) report += rightJustifier(WIDTH, counts.line);
-   if (counts.word) report += rightJustifier(WIDTH, counts.word);
-   if (counts.byte) report += rightJustifier(WIDTH, counts.byte);
-   return joinBySpace(report, name);
+  if (counts.line != undefined) report += rightJustifier(WIDTH, counts.line);
+  if (counts.word != undefined) report += rightJustifier(WIDTH, counts.word);
+  if (counts.byte != undefined) report += rightJustifier(WIDTH, counts.byte);
+  return joinBySpace(report, name);
 };
 
 module.exports = { format };

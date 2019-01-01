@@ -4,6 +4,26 @@ const { SPACE, SEVENSPACES, SIXSPACES } = require("../../src/util");
 
 describe("format", function() {
   describe("for single file", function() {
+    it('should return line, char as 1 and word as 0 if the file is empty ', function(){
+      let fileLogs = [
+        {
+          name: 'empty_file',
+          exist: true,
+          content: '',
+          counts: {
+            line: 1,
+            word: 0,
+            byte: 1
+          }
+        }
+      ];
+      let expectedOutput = SEVENSPACES + '1';
+      expectedOutput += SEVENSPACES + '0';
+      expectedOutput += SEVENSPACES + '1';
+      expectedOutput += SPACE + 'empty_file';
+      assert.equal( format(fileLogs), expectedOutput );
+    });
+
     it("should return the wc actual string output with file name when there is only one option -l", function() {
       let fileLogs = [
         {
