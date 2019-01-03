@@ -18,9 +18,10 @@ const reader = function (fs, options, fileName, index, maxLength, initialVlue) {
 			formatedOutput = singleFileFormatter({ name, exist });
 		}
 
-		if(exist){
-		 total = addCount( reportCount(options, data), total);
-		 formatedOutput = singleFileFormatter({ name, exist, data, counts });
+		if(exist) {
+			let counts = reportCount(options, data);
+			total = addCount( counts, total);
+			formatedOutput = singleFileFormatter({ name, exist, data, counts });
 		}
 
 		initialVlue[index] = formatedOutput;

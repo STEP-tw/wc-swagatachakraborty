@@ -6,6 +6,8 @@ const {
   isUndefiend } = require("../util");
 const { fileError } = require('../wcLib/errorHandler');
 
+let hasNotDisplayed = true;
+
 const singleFileFormatter = function (fileLog) {
   if (fileLog.exist) {
     return oneLineReport(fileLog);
@@ -26,7 +28,10 @@ const formatAndDisplay = function (log, total) {
 	if(log.length > 1){
 		log.push(oneLineReport( {name:'total',counts: total} ));
 	}
-	console.log( log.join(NEWLINE) );
+	if(hasNotDisplayed){
+		console.log( log.join(NEWLINE) );
+		hasNotDisplayed = true;
+	}
 };
 
 module.exports = { singleFileFormatter, oneLineReport, formatAndDisplay };
