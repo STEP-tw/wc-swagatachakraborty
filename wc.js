@@ -1,16 +1,14 @@
 const fs = require("fs");
 const { parse } = require('./src/IOHandlers/parser');
 const { validater } = require('./src/wcLib/errorHandler');
-const { generateFileLogs } = require('./src/wcLib/fileHandler');
-const { format } = require("./src/IOHandlers/formatter");
+const { wc } = require('./src/wcLib/fileHandler');
 
 const main = function() {
-  let { options, files } = parse( process.argv.slice(2) );
+	let { options, files } = parse( process.argv.slice(2) );
   if( validater.isInvalid(options) ) {
-    return validater.parseError(options);
+		return console.log(validater.parseError(options)); 
   }
-  let countReport = generateFileLogs( fs, options, files );
-  return format(countReport);
+  return wc( fs, options, files );
 };
 
-console.log(main());
+main();

@@ -1,20 +1,39 @@
-const { fileCounters } = require('./counter');
+const { fileCounters, addCount} = require('./counter');
+const { singleFileFormatter, oneLineReport } = require('../IOHandlers/formatter');
 const ENCODING = 'utf8';
 
-const generateFileLogs = function(fs, options, files) {
-  return files.map( createFileLog.bind(null, fs, options) );
+const wc = function(fs, options, files) {
+	let formatedOutput =  files.reduce( (init, fileName, index) => reader(fs, options, fileName, index, files.length, init), [] );
+	return formatedOutput;
 };
 
-const createFileLog = function (fs, options, fileName) {
-  let log = { name: fileName };
-  if( !fs.existsSync(fileName) ){
-    log.exist = false;
-    return log;
-  }
-  log.exist = true;
-  log.content = fs.readFileSync(fileName, ENCODING);
-  log.counts = reportCount(options, log.content);
-  return log;
+let total =  {line: 0, word: 0, byte: 0};
+
+const reader = function (fs, options, fileName, index, maxLength, initialVlue) {
+	fs.readFile(fileName, ENCODING, (error, data) => {
+		let name = fileName;
+		let exist = true;
+		let formatedOutput;
+		if(error){
+			exist = false;
+			formatedOutput = singleFileFormatter({ name, exist });
+		}
+		if(exist){
+		 let counts = reportCount(options, data);
+		 total = addCount(counts, total);
+		 formatedOutput = singleFileFormatter({ name, exist, data, counts });
+		}
+
+		initialVlue[index] = formatedOutput;
+		if(initialVlue.length == maxLength && !initialVlue.includes(undefined)){
+			if(maxLength > 1){
+				initialVlue.push(oneLineReport({name:'total',counts: total}));
+			}
+			console.log(initialVlue.join('\n'));
+		}
+	});
+
+	return initialVlue;
 };
 
 const reportCount = function(countOptions, content) {
@@ -24,4 +43,4 @@ const reportCount = function(countOptions, content) {
   }, {});
 };
 
-module.exports = { generateFileLogs };
+module.exports = { wc, reportCount };

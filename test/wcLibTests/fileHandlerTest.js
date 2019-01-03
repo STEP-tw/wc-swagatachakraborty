@@ -1,5 +1,5 @@
 const assert = require("assert");
-const { generateFileLogs } = require("../../src/wcLib/fileHandler");
+const { reportCount } = require("../../src/wcLib/fileHandler");
 
 const files = {
   "10_line_file": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
@@ -8,214 +8,45 @@ const files = {
   "multiple_words_in_one_line": "00\n1 2 3\n4 5\n"
 };
 
-const fs = {
-  readFileSync: function(x) {
-    return files[x];
-  },
-  existsSync: function(x) {
-    return files[x] != undefined;
-  }
-};
+describe('reportCount', function(){
+	it('should give object that contain all the counts according to the option', function(){
+		let expectedOutput = {
+			line: 10,
+			word: 10,
+			byte: 20
+		};
+		let options = ['line', 'word', 'byte'];
+		let content = files["10_line_file"];
+		assert.deepEqual( reportCount(options, content), expectedOutput );
+	});
 
-describe("generateFileLogs", function() {
-  describe("default option - single file", function() {
-    let options = ['line', 'word', 'byte'];
-    it('should return line, byte count as 1 and word count 0 for file that is empty', function(){
-      let file  = ["empty_file"];
-      let options = ['line', 'word', 'byte'];
-      let expectedOutput = [
-        {
-          name: "empty_file",
-          exist: true,
-          content: '\n',
-          counts: {
-            line: 1,
-            word: 0,
-            byte: 1
-          }
-        }
-      ];
-      assert.deepEqual( generateFileLogs(fs, options, file), expectedOutput );
-    });
+	it('should give object that contain all the counts according to the option', function(){
+		let expectedOutput = {
+			line: 1,
+			word: 0,
+			byte: 1
+		};
+		let options = ['line', 'word', 'byte'];
+		let content = files["empty_file"];
+		assert.deepEqual( reportCount(options, content), expectedOutput );
+	});
 
-    it("should return line, word, byte count with file name, when there is only one existing file ", function() {
-      let file = ["10_line_file"];
-      let expectedOutput = [{
-        name: "10_line_file",
-        exist : true,
-        content: "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
-        counts: {
-          line: 10,
-          word: 10,
-          byte: 20
-        }
-      }];
-      assert.deepEqual(generateFileLogs(fs, options, file), expectedOutput);
-    });
-    
-    it("should return line, word, byte count with file name, when there is only one existing file with empty line ", function() {
-      let file = ["file_with_empty_line"];
-      let expectedOutput = [{
-        name: "file_with_empty_line",
-        exist : true,
-        content: "0\n1\n\n2\n3\n4\n5\n6\n7\n8\n9\n",
-        counts: {
-          line: 11,
-          word: 10,
-          byte: 21
-        }
-      }];
-      assert.deepEqual(generateFileLogs(fs, options, file), expectedOutput);
-    });
-    
-    it("should return all count, when there is only one existing file with multiple words in one line ", function() {
-      let file = ["multiple_words_in_one_line"];
-      let expectedOutput =[{
-        name: "multiple_words_in_one_line",
-        exist : true,
-        content: "00\n1 2 3\n4 5\n",
-        counts: {
-          line: 3,
-          word: 6,
-          byte: 13
-        }
-      }];
-      assert.deepEqual(generateFileLogs(fs, options, file), expectedOutput);
-    });
+	it('should give object that contain all the counts according to the option', function(){
+		let expectedOutput = {
+			word: 6,
+			byte: 13
+		};
+		let options = ['word', 'byte'];
+		let content = files["multiple_words_in_one_line"];
+		assert.deepEqual( reportCount(options, content), expectedOutput );
+	});
 
-    it("should returnn name and exist status when there is unexisting file with default option", function() {
-      let file = ["file"];
-      let expectedOutput =[{
-        name: "file",
-        exist : false
-      }];
-      let options = ['line', 'word', 'byte'];
-      assert.deepEqual(generateFileLogs(fs, options,file), expectedOutput);
-    });
-  });
-  
-  describe("one option - single file", function() {
-    it("should return line count with file name, when there is only one existing file, \'-l\' ", function() {
-      let file = ["multiple_words_in_one_line"];
-      let expectedOutput =[{
-        name: "multiple_words_in_one_line",
-        exist : true,
-        content: "00\n1 2 3\n4 5\n",
-        counts: {
-          line: 3,
-        }
-      }];
-      let options = ['line'];
-      assert.deepEqual(generateFileLogs(fs, options, file), expectedOutput);
-    });
-    
-    it("should return word count with file name, when there is only one existing file with empty line, \'-w\' ", function() {
-      let file = ["file_with_empty_line"];
-      let expectedOutput = [{
-        name: "file_with_empty_line",
-        exist : true,
-        content: "0\n1\n\n2\n3\n4\n5\n6\n7\n8\n9\n",
-        counts: {
-          word: 10
-        }
-      }];
-      let options = ['word'];
-      assert.deepEqual(generateFileLogs(fs, options, file), expectedOutput);
-    });
-    
-    it("should return byte count when there is only one existing file with multiple words in one line, \'c\' ", function() {
-      let file = ["multiple_words_in_one_line"];
-      let expectedOutput =[{
-        name: "multiple_words_in_one_line",
-        exist : true,
-        content: "00\n1 2 3\n4 5\n",
-        counts: {
-          byte: 13
-        }
-      }];
-      let options = ['byte'];
-      assert.deepEqual(generateFileLogs(fs, options,file), expectedOutput);
-    });
-      
-      it("should returnn name and exist status when there is unexisting file with, \'c\' ", function() {
-        let file = ["file"];
-        let expectedOutput =[{
-          name: "file",
-          exist : false
-        }];
-        let options = ['byte'];
-        assert.deepEqual(generateFileLogs(fs, options,file), expectedOutput);
-    });
-  });
-  
-  describe("default option - multiple file", function() {
-    let options = ['line', 'word', 'byte'];
-    it("should return line, word, byte count with file name, when there are all existing file ", function() {
-      let file = ["10_line_file", "file_with_empty_line"];
-      let expectedOutput = [{
-        name: "10_line_file",
-        exist : true,
-        content: "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
-        counts: {
-          line: 10,
-          word: 10,
-          byte: 20
-        }
-      },
-      {
-        name: "file_with_empty_line",
-        exist : true,
-        content: "0\n1\n\n2\n3\n4\n5\n6\n7\n8\n9\n",
-        counts: {
-          line: 11,
-          word: 10,
-          byte: 21
-        }
-      }];
-      assert.deepEqual(generateFileLogs(fs, options, file), expectedOutput);
-    });
-
-    it("should return name and existing status when there is missing file", function() {
-      let file = ["file", "file_with_empty_line"];
-      let expectedOutput = [{
-        name: "file",
-        exist : false,
-      },
-      {
-        name: "file_with_empty_line",
-        exist : true,
-        content: "0\n1\n\n2\n3\n4\n5\n6\n7\n8\n9\n",
-        counts: {
-          line: 11,
-          word: 10,
-          byte: 21
-        }
-      }];
-      assert.deepEqual(generateFileLogs(fs, options, file), expectedOutput);
-    });
-  });
-  
-  describe("one option - single file", function() {
-    it("should return line count with file name, when there are all existing file, \'-w\' ", function() {
-      let file = ["multiple_words_in_one_line", "file_with_empty_line"];
-      let expectedOutput =[{
-        name: "multiple_words_in_one_line",
-        exist : true,
-        content: "00\n1 2 3\n4 5\n",
-        counts: {
-          word: 6
-        }
-      },
-      {
-        name: "file_with_empty_line",
-        exist : true,
-        content: "0\n1\n\n2\n3\n4\n5\n6\n7\n8\n9\n",
-        counts: {
-          word: 10
-        }
-      }];
-      let options = ['word'];
-      assert.deepEqual(generateFileLogs(fs, options, file), expectedOutput);
-    });
-  });
+	it('should give object that contain all the counts according to the option', function(){
+		let expectedOutput = {
+			line: 11
+		};
+		let options = ['line'];
+		let content = files["file_with_empty_line"];
+		assert.deepEqual( reportCount(options, content), expectedOutput );
+	});
 });
