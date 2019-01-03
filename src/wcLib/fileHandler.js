@@ -1,10 +1,9 @@
 const { fileCounters, addCount} = require('./counter');
-const { singleFileFormatter, oneLineReport } = require('../IOHandlers/formatter');
+const { singleFileFormatter, formatAndDisplay } = require('../IOHandlers/formatter');
 const ENCODING = 'utf8';
 
 const wc = function(fs, options, files) {
-	let formatedOutput =  files.reduce( (init, fileName, index) => reader(fs, options, fileName, index, files.length, init), [] );
-	return formatedOutput;
+	files.reduce( (init, fileName, index) => reader(fs, options, fileName, index, files.length, init), [] );
 };
 
 let total =  {line: 0, word: 0, byte: 0};
@@ -18,18 +17,15 @@ const reader = function (fs, options, fileName, index, maxLength, initialVlue) {
 			exist = false;
 			formatedOutput = singleFileFormatter({ name, exist });
 		}
+
 		if(exist){
-		 let counts = reportCount(options, data);
-		 total = addCount(counts, total);
+		 total = addCount( reportCount(options, data), total);
 		 formatedOutput = singleFileFormatter({ name, exist, data, counts });
 		}
 
 		initialVlue[index] = formatedOutput;
 		if(initialVlue.length == maxLength && !initialVlue.includes(undefined)){
-			if(maxLength > 1){
-				initialVlue.push(oneLineReport({name:'total',counts: total}));
-			}
-			console.log(initialVlue.join('\n'));
+			formatAndDisplay(initialVlue, total);
 		}
 	});
 

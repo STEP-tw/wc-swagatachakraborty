@@ -1,7 +1,8 @@
 const {
   rightJustifier,
   EMPTYSTRING,
-  joinBySpace,
+	joinBySpace,
+	NEWLINE,
   isUndefiend } = require("../util");
 const { fileError } = require('../wcLib/errorHandler');
 
@@ -21,4 +22,11 @@ const oneLineReport = function({ name, counts }) {
   return joinBySpace(report, name);
 };
 
-module.exports = { singleFileFormatter, oneLineReport };
+const formatAndDisplay = function (log, total) {
+	if(log.length > 1){
+		log.push(oneLineReport( {name:'total',counts: total} ));
+	}
+	console.log( log.join(NEWLINE) );
+};
+
+module.exports = { singleFileFormatter, oneLineReport, formatAndDisplay };
