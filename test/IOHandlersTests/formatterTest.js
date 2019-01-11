@@ -1,5 +1,5 @@
 const assert = require("assert");
-const { singleFileFormatter } = require("../../src/IOHandlers/formatter");
+const { singleFileFormatter, format } = require("../../src/IOHandlers/formatter");
 const { SPACE, SEVENSPACES, SIXSPACES } = require("../../src/util");
 
 describe("singleFileFormatter", function () {
@@ -21,7 +21,7 @@ describe("singleFileFormatter", function () {
 		assert.equal(singleFileFormatter(fileLogs), expectedOutput);
 	});
 
-	it("should return the wc actual string output with file name when there is only one option -l", function () {
+	it("should return line count with file name when there is only one option -l", function () {
 		let fileLogs = {
 			exist: true,
 			name: "multiple_words_in_one_line",
@@ -34,7 +34,7 @@ describe("singleFileFormatter", function () {
 		assert.equal(singleFileFormatter(fileLogs), expectedOutput);
 	});
 
-	it("should return the wc actual string output with file name when there is only one option -w", function () {
+	it("should return word count with file name when there is only one option -w", function () {
 		let fileLogs = {
 			name: "file_with_empty_line",
 			exist: true,
@@ -47,7 +47,7 @@ describe("singleFileFormatter", function () {
 		assert.equal(singleFileFormatter(fileLogs), expectedOutput);
 	});
 
-	it("should return the wc actual string output with file name when there is only one option -c", function () {
+	it("should return byte count with file name when there is only one option -c", function () {
 		let fileLogs = {
 			name: "multiple_words_in_one_line",
 			exist: true,
@@ -60,7 +60,7 @@ describe("singleFileFormatter", function () {
 		assert.equal(singleFileFormatter(fileLogs), expectedOutput);
 	});
 
-	it("should return the wc actual string output with file name for default options", function () {
+	it("should return line, word and byte counts with file name for default options", function () {
 		let fileLogs = {
 			name: "multiple_words_in_one_line",
 			exist: true,
@@ -75,12 +75,43 @@ describe("singleFileFormatter", function () {
 		assert.equal(singleFileFormatter(fileLogs), expectedOutput);
 	});
 
-	it("should return the wc actual string output with file name for default options", function () {
+	it("should return missing file error if the given file doesn't exist", function () {
 		let fileLogs = {
 			name: "multiple_words_in_one_line",
 			exist: false,
 		};
 		let expectedOutput = "wc: multiple_words_in_one_line: open: No such file or directory";
 		assert.equal(singleFileFormatter(fileLogs), expectedOutput);
+	});
+});
+
+describe('format', function(){
+	it('should return line, word and byte counts with file name for default option, when there is single file', function(){
+		let log = ['      15      58     475 wc.js'];
+		let total = { line: 15, word: 58, byte: 475 };
+		let expectedOutput = '      15      58     475 wc.js';
+		assert.equal( format(log, total), expectedOutput );
+	});
+	
+	it('should give all counts with total when there is more than one file for default option', function(){
+		let log = [
+			'      15      58     475 wc.js',
+			'      1       7      45 TODO'
+		];
+		
+		let total = { line: 16, word: 65, byte: 520 };
+		let expectedOutput = log.concat('      16      65     520 total').join('\n');
+		assert.equal( format(log, total), expectedOutput );
+	});
+
+	it('should give all counts with total and error for missing file', function(){
+		let log = [
+			'      15      58     475 wc.js',
+			'wc: multiple_words_in_one_line: open: No such file or directory'
+		];
+		
+		let total = { line: 15, word: 58, byte: 475 };
+		let expectedOutput = log.concat('      15      58     475 total').join('\n');
+		assert.equal( format(log, total), expectedOutput );
 	});
 });

@@ -6,7 +6,7 @@ const {
   isUndefiend } = require("../util");
 const { fileError } = require('../wcLib/errorHandler');
 
-let hasNotDisplayed = true;
+let hasDisplayed = false;
 
 const singleFileFormatter = function (fileLog) {
   if (fileLog.exist) {
@@ -24,14 +24,14 @@ const oneLineReport = function({ name, counts }) {
   return joinBySpace(report, name);
 };
 
-const formatAndDisplay = function (log, total) {
-	if(log.length > 1){
-		log.push(oneLineReport( {name:'total',counts: total} ));
+const format = function (log, total) {
+	if (hasDisplayed) return ;
+	let	fileCounts = log.slice();
+	if(fileCounts.length > 1){
+		fileCounts.push(oneLineReport( {name:'total',counts: total} ));
 	}
-	if(hasNotDisplayed){
-		console.log( log.join(NEWLINE) );
-		hasNotDisplayed = true;
-	}
+	hasNotDisplayed = true;
+	return fileCounts.join(NEWLINE);
 };
 
-module.exports = { singleFileFormatter, oneLineReport, formatAndDisplay };
+module.exports = { singleFileFormatter, oneLineReport, format };

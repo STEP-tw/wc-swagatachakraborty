@@ -1,5 +1,14 @@
 const assert = require("assert");
-const { reportCount } = require("../../src/wcLib/fileHandler");
+const { reportCount, wc } = require("../../src/wcLib/fileHandler");
+const { SEVENSPACES, SPACE, SIXSPACES } = require('../../src/util');
+
+const fs = {
+  readFile: function(x, encoding, callBack) {
+		let error = files[x] == undefined;
+		let data = files[x];
+    return callBack(error, data);
+  }
+};
 
 const files = {
   "10_line_file": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
@@ -48,5 +57,56 @@ describe('reportCount', function(){
 		let options = ['line'];
 		let content = files["file_with_empty_line"];
 		assert.deepEqual( reportCount(options, content), expectedOutput );
+	});
+});
+
+describe('wc', function() {
+	it('should return line, word, byte counts when there is only one existing file with default option', function() {
+		const display = function (content) {
+			assert.equal(content, expectedOutput);
+		};
+
+		let options = ['line', 'word', 'byte'];
+		let files = ['empty_file'];
+		let expectedOutput = SEVENSPACES + '1';
+		expectedOutput += SEVENSPACES + '0';
+		expectedOutput += SEVENSPACES + '1';
+		expectedOutput += SPACE + 'empty_file';
+		wc(fs, options, files, display);
+	});
+
+	it('should return all counts when there are multiple existing files with total for default option', function(done) {
+		const display = function (content) {
+			assert.equal(content, expectedOutput);
+			done();
+		};
+
+		let options = ['line', 'word', 'byte'];
+		let files = ['empty_file', 'multiple_words_in_one_line'];
+
+		let expectedOutput = SEVENSPACES + '1';
+		expectedOutput += SEVENSPACES + '0';
+		expectedOutput += SEVENSPACES + '1';
+		expectedOutput += SPACE + 'empty_file\n';
+		expectedOutput += SEVENSPACES + "3";
+		expectedOutput += SEVENSPACES + "6";
+		expectedOutput += SIXSPACES + "13";
+		expectedOutput += SPACE + "multiple_words_in_one_line\n";
+		expectedOutput += SEVENSPACES + '4';
+		expectedOutput += SEVENSPACES + '6';
+		expectedOutput += SIXSPACES + '14 total';
+
+		wc(fs, options, files, display);
+	});
+
+	it('should return line, word, byte counts when there is only one existing file with default option', function() {
+		const display = function (content) {
+			assert.equal(content, expectedOutput);
+		};
+
+		let options = ['line', 'word', 'byte'];
+		let files = ['empty'];
+		let expectedOutput = 'wc: empty: open: No such file or directory'
+		wc(fs, options, files, display);
 	});
 });
